@@ -26,8 +26,8 @@ import org.maplibre.compose.expressions.value.SymbolAnchor
 import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.layers.SymbolLayer
-import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.MapOptions
+import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.RenderOptions
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
@@ -59,8 +59,7 @@ class SymbolExampleScreen(carContext: CarContext, private val onNavigateBack: ()
         cameraState = cam,
         options =
             MapOptions(
-                renderOptions =
-                    RenderOptions(renderMode = RenderOptions.RenderMode.TextureView)),
+                renderOptions = RenderOptions(renderMode = RenderOptions.RenderMode.TextureView)),
         onMapClick = { pos, _ ->
           Log.d(TAG, "Tapped at $pos")
           ClickResult.Pass

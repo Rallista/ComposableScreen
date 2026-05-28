@@ -34,8 +34,8 @@ import org.maplibre.compose.location.LocationProvider
 import org.maplibre.compose.location.LocationPuck
 import org.maplibre.compose.location.LocationTrackingEffect
 import org.maplibre.compose.location.rememberUserLocationState
-import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.MapOptions
+import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.RenderOptions
 import org.maplibre.compose.style.BaseStyle
 import org.maplibre.spatialk.geojson.Position
@@ -75,7 +75,8 @@ class CameraExampleScreen(carContext: CarContext) : ComposableScreen(carContext,
       }
     }
 
-    if (mode is CameraMode.TrackingUserLocation || mode is CameraMode.TrackingUserLocationWithBearing) {
+    if (mode is CameraMode.TrackingUserLocation ||
+        mode is CameraMode.TrackingUserLocationWithBearing) {
       LocationTrackingEffect(userLocation) {
         cam.updateFromLocation(
             updateBearing =
@@ -90,8 +91,7 @@ class CameraExampleScreen(carContext: CarContext) : ComposableScreen(carContext,
         cameraState = cam,
         options =
             MapOptions(
-                renderOptions =
-                    RenderOptions(renderMode = RenderOptions.RenderMode.TextureView)),
+                renderOptions = RenderOptions(renderMode = RenderOptions.RenderMode.TextureView)),
     ) {
       LocationPuck(idPrefix = "puck", locationState = userLocation, cameraState = cam)
     }
@@ -100,7 +100,8 @@ class CameraExampleScreen(carContext: CarContext) : ComposableScreen(carContext,
   override fun onGetTemplate(): Template {
     return MapWithContentTemplate.Builder()
         .setContentTemplate(
-            MessageTemplate.Builder("Camera is currently ${cameraMode.value::class.simpleName}").build())
+            MessageTemplate.Builder("Camera is currently ${cameraMode.value::class.simpleName}")
+                .build())
         .setActionStrip(
             ActionStrip.Builder()
                 .addAction(
@@ -108,7 +109,8 @@ class CameraExampleScreen(carContext: CarContext) : ComposableScreen(carContext,
                         .setTitle("Symbols")
                         .setOnClickListener {
                           Log.d(TAG, "Navigating to SymbolExampleScreen")
-                          screenManager.push(SymbolExampleScreen(carContext) { screenManager.pop() })
+                          screenManager.push(
+                              SymbolExampleScreen(carContext) { screenManager.pop() })
                         }
                         .build())
                 .build())

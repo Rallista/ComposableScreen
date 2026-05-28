@@ -23,7 +23,6 @@ import kotlin.time.TimeSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.location.BearingUpdate
 import org.maplibre.compose.location.Location
@@ -31,8 +30,8 @@ import org.maplibre.compose.location.LocationProvider
 import org.maplibre.compose.location.LocationPuck
 import org.maplibre.compose.location.LocationTrackingEffect
 import org.maplibre.compose.location.rememberUserLocationState
-import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.MapOptions
+import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.RenderOptions
 import org.maplibre.compose.style.BaseStyle
 import org.maplibre.spatialk.geojson.Position
@@ -73,7 +72,8 @@ class CameraExampleScreen(carContext: CarContext) :
       }
     }
 
-    if (mode is CameraMode.TrackingUserLocation || mode is CameraMode.TrackingUserLocationWithBearing) {
+    if (mode is CameraMode.TrackingUserLocation ||
+        mode is CameraMode.TrackingUserLocationWithBearing) {
       LocationTrackingEffect(userLocation) {
         cam.updateFromLocation(
             updateBearing =
@@ -88,8 +88,7 @@ class CameraExampleScreen(carContext: CarContext) :
         cameraState = cam,
         options =
             MapOptions(
-                renderOptions =
-                    RenderOptions(renderMode = RenderOptions.RenderMode.TextureView)),
+                renderOptions = RenderOptions(renderMode = RenderOptions.RenderMode.TextureView)),
     ) {
       LocationPuck(idPrefix = "puck", locationState = userLocation, cameraState = cam)
     }
