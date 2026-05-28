@@ -1,6 +1,6 @@
 [versions]
 agp = "9.2.0"
-kotlin = "2.3.10"
+kotlin = "2.3.21"
 ktfmt = "0.25.0"
 mavenPublish = "0.36.0"
 dokka = "2.0.0"
