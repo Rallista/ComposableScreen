@@ -42,11 +42,15 @@ dependencies {
   // Important!
   // This library MUST NOT use libs.androidx.car.app.automotive
   // if we want it to remain compatible with Android Auto.
-  implementation(libs.androidx.car.app)
+  // Exposed via ComposableScreen (CarContext, Screen, Template), so consumers
+  // need it on their compile classpath when subclassing.
+  api(libs.androidx.car.app)
 
-  implementation(platform(libs.androidx.compose.bom))
-  implementation(libs.androidx.ui)
-  implementation(libs.androidx.compose.runtime)
+  // Compose runtime/ui types appear in the public API (@Composable content lambdas),
+  // so they must be `api` to remain available to downstream subclasses.
+  api(platform(libs.androidx.compose.bom))
+  api(libs.androidx.ui)
+  api(libs.androidx.compose.runtime)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
@@ -65,6 +69,7 @@ mavenPublishing {
 mavenPublishing {
   pom {
     name.set("Car App Compose")
-    description.set("Compose UI extensions for the AndroidX Car App library (Android Auto and Android Automotive OS)")
+    description.set(
+        "Compose UI extensions for the AndroidX Car App library (Android Auto and Android Automotive OS)")
   }
 }

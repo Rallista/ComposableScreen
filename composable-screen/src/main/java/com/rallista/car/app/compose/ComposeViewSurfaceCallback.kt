@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 
 class ComposeViewSurfaceCallback(
@@ -39,6 +40,7 @@ class ComposeViewSurfaceCallback(
       ComposeView(androidContext).apply {
         setViewTreeLifecycleOwner(lifecycleOwner)
         setViewTreeSavedStateRegistryOwner(lifecycleOwner)
+        setViewTreeViewModelStoreOwner(lifecycleOwner)
         setContent { content.invoke() }
       }
 
@@ -46,6 +48,14 @@ class ComposeViewSurfaceCallback(
     if (isDisposed) {
       return
     }
+
+    // onSurfaceAvailable can be called multiple times when the surface's size or DPI changes
+    // without the underlying surface being destroyed. Tear down any prior virtual display /
+    // presentation first so we don't leak them.
+    presentation?.dismiss()
+    presentation = null
+    virtualDisplay?.release()
+    virtualDisplay = null
 
     // Create virtual display with the surface from Android Auto
     virtualDisplay =
@@ -108,6 +118,8 @@ class ComposeViewSurfaceCallback(
     if (isLifecycleInitialized) {
       lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     }
+
+    lifecycleOwner.viewModelStore.clear()
   }
 
   fun resume() {
