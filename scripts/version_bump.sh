@@ -23,5 +23,9 @@ echo "Bumping version from $last_version to $next_version"
 # Update the version in build.gradle.kts
 sed -i "s/version = \"$last_version\"/version = \"$next_version\"/" build.gradle.kts
 
-# Output the tag to stdout
-echo ::set-output name=version::$next_version
+# Expose the new version to later workflow steps (falls back to stdout locally)
+if [ -n "$GITHUB_OUTPUT" ]; then
+    echo "version=$next_version" >> "$GITHUB_OUTPUT"
+else
+    echo "version=$next_version"
+fi
