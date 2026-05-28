@@ -6,9 +6,12 @@ plugins {
   alias(libs.plugins.ktfmt)
   alias(libs.plugins.compose.compiler)
   alias(libs.plugins.mavenPublish)
+  alias(libs.plugins.dokka)
   id("maven-publish")
   id("CommonPomConventionPlugin")
 }
+
+dokka { dokkaSourceSets.configureEach { includes.from("dokka/module.md") } }
 
 android {
   namespace = "com.rallista.car.app.compose"
